@@ -1,0 +1,52 @@
+<form [formGroup]="registerForm" class="flex flex-col items-center justify-center w-full">
+
+  <div class="flex gap-4 w-full items-center">
+    <mat-icon class="mb-4">badge</mat-icon>
+    <mat-form-field class="w-full">
+      <mat-label>Nombre completo</mat-label>
+      <input type="text" matInput placeholder="Nombre completo" required="" formControlName="nombre">
+    </mat-form-field>
+  </div>
+
+  <div class="flex gap-4 w-full items-center">
+    <mat-icon class="mb-4">person</mat-icon>
+    <mat-form-field class="w-full">
+      <mat-label>Usuario</mat-label>
+      <input type="text" matInput placeholder="Nombre de usuario" required="" formControlName="usuario">
+    </mat-form-field>
+  </div>
+
+  <div class="flex gap-4 w-full items-center">
+    <mat-icon class="mb-4">call</mat-icon>
+    <mat-form-field class="w-full">
+      <mat-label>Numero telefonico</mat-label>
+      <input type="text" matInput placeholder="Numero de telefono" required="" formControlName="numeroTelefonico">
+    </mat-form-field>
+  </div>
+
+  <div class="flex gap-4 w-full items-center">
+    <mat-icon class="mb-4">lock</mat-icon>
+    <mat-form-field class="w-full">
+      <mat-label>Contraseña</mat-label>
+      <input type="password" matInput placeholder="Contraseña" required="" formControlName="contraseña">
+    </mat-form-field>
+  </div>
+
+  <div class="flex gap-4 w-full items-center">
+    <mat-icon class="mb-4">lock</mat-icon>
+    <mat-form-field class="w-full">
+      <mat-label>Confirmar contraseña</mat-label>
+      <input type="password" matInput placeholder="Confirmar contraseña" required="" formControlName="confirmarContraseña">
+    </mat-form-field>
+  </div>
+
+
+  <button (click)="onRegisterUser()" class="w-1/2 mx-auto" mat-button mat-flat-button color="primary">
+    <mat-icon>login</mat-icon>
+    Registrarme
+  </button>
+  <div class="flex justify-end mt-5">
+    <a class="hover:text-indigo-600 transition-all" routerLink="/auth/login">¿Ya tienes cuenta? Ingresa</a>
+  </div>
+</form>
+

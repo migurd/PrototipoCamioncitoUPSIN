@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user.interface';
-import { Observable, catchError, map, of, tap } from 'rxjs';
+import { Observable, catchError, map, of, pipe, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +9,13 @@ import { Observable, catchError, map, of, tap } from 'rxjs';
 export class AuthService {
 
   private apiData = 'http://localhost:3000/usuarios';
-  private apiSMS = 'https://api.labsmobile.com/json/send';
+  private apiSMS = 'https://rest.clicksend.com/v3/';
+  private apiSMSKey = '3C408D16-DB9C-650E-A322-FB4E5EC2E348';
 
   private user?: User;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
   ){}
 
   get currentUser(): User | undefined {
@@ -22,12 +23,14 @@ export class AuthService {
     return this.user;
   }
 
-  login(usuario: string, password: string): Observable<User> | undefined {
-    return this.http.get<User>(`${this.apiData}?usuario=${usuario}&contraseña=${password}`).
+  login(usuario: string, password: string): Observable<User[]> | undefined {
+    return this.http.get<User[]>(`${this.apiData}?usuario=${usuario}&contraseña=${password}`).
       pipe(
-        tap(user =>{
-          this.user = user;
-          localStorage.setItem('token', JSON.stringify(user.id));
+        tap(users =>{
+          if(users.length > 0){
+            this.user = users[0];
+            localStorage.setItem('token', JSON.stringify(this.user.id));
+          }
         }),
       );
   }
@@ -48,16 +51,15 @@ export class AuthService {
     this.user = undefined;
   }
 
-  getUserByUserName(usuario: string): Observable<User> {
-    return this.http.get<User>(`${this.apiData}?usuario=${usuario}`);
+  registerUser(user: User): Observable<User> {
+    return this.http.post<User>(this.apiData, user)
+      .pipe(
+        tap(newUser => {
+          this.user = newUser;
+          localStorage.setItem('token', JSON.stringify(newUser.id));
+        })
+      );
   }
 
-  sendSMS(numero: string, mensaje: string): Observable<any> {
-    const body = {
-      'message': mensaje,
-      'tpoa': 'CamioncitoUPSIN',
-      'recipient': numero
-    };
-    return this.http.post<any>(this.apiSMS, body);
-  }
+
 }

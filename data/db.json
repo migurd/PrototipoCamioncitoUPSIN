@@ -1,32 +1,32 @@
 {
-  "usuarios":[
+  "usuarios": [
     {
-      "id":"1",
-      "nombre":"Angel Ernesto Qui Mora",
-      "usuario":"AngelQuiMora",
-      "contraseña":"123456",
-      "numeroTelefonico":"+526692667793"
+      "id": "1",
+      "nombre": "Angel Ernesto Qui Mora",
+      "usuario": "AngelQuiMora",
+      "contraseña": "123456",
+      "numeroTelefonico": "+526692667793"
     },
     {
-      "id":"2",
-      "nombre":"Angel Gabriel Ramirez Osuna",
-      "usuario":"AngelRamirez30",
-      "contraseña":"123456",
-      "numeroTelefonico":"+526692617697"
+      "id": "2",
+      "nombre": "Angel Gabriel Ramirez Osuna",
+      "usuario": "AngelRamirez30",
+      "contraseña": "123456",
+      "numeroTelefonico": "+526692617697"
     },
     {
-      "id":"3",
-      "nombre":"Jaime de Jesus Rodriguez Dennis",
-      "usuario":"JaimeRodriguez",
-      "contraseña":"123456",
-      "numeroTelefonico":"+526693362323"
+      "id": "3",
+      "nombre": "Jaime de Jesus Rodriguez Dennis",
+      "usuario": "JaimeRodriguez",
+      "contraseña": "123456",
+      "numeroTelefonico": "+526693362323"
     },
     {
-      "id":"4",
-      "nombre":"Natalia Abigail Salazar Guitierrez",
-      "usuario":"NataliaSalazar",
-      "contraseña":"123456",
-      "numeroTelefonico":"+526691426053"
+      "id": "4",
+      "nombre": "Natalia Abigail Salazar Guitierrez",
+      "usuario": "NataliaSalazar",
+      "contraseña": "123456",
+      "numeroTelefonico": "+526691426053"
     }
   ]
 }
