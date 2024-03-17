@@ -9,8 +9,6 @@ import { Observable, catchError, map, of, pipe, tap } from 'rxjs';
 export class AuthService {
 
   private apiData = 'http://localhost:3000/usuarios';
-  private apiSMS = 'https://rest.clicksend.com/v3/';
-  private apiSMSKey = '3C408D16-DB9C-650E-A322-FB4E5EC2E348';
 
   private user?: User;
 
@@ -60,6 +58,4 @@ export class AuthService {
         })
       );
   }
-
-
 }

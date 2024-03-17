@@ -13,5 +13,7 @@ export class HomePageComponent {
     private authService: AuthService,
   ){}
 
-
+  get user(): User | undefined {
+    return this.authService.currentUser;
+  }
 }

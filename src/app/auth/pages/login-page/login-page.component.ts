@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
 
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -12,18 +12,22 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styles: ``
 })
 export class LoginPageComponent {
-  public loginForm = new FormGroup({
-    usuario:    new FormControl<string>(''),
-    contraseña: new FormControl<string>(''),
+  // public loginForm = new FormGroup({
+  //   usuario:    new FormControl<string>(''),
+  //   contraseña: new FormControl<string>(''),
+  // });
+
+  public loginForm = this.fb.group({
+    usuario: ['', Validators.required],
+    contraseña: ['', Validators.required],
   });
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
-  ){
-
-  }
+    private fb: FormBuilder,
+  ){}
 
   onLogin(): void{
     const { usuario, contraseña } = this.loginForm.value;
@@ -36,12 +40,19 @@ export class LoginPageComponent {
               duration: 2500,
             });
           }else{
-            this.snackBar.open('Cuenta inexsistente', 'ok', {
+            this.snackBar.open('Cuenta inexsistente', undefined, {
               duration: 2500,
             });
-            this.loginForm.reset();
+            this.loginForm.reset({
+              usuario: this.loginForm.value.usuario,
+              contraseña: '',
+            });
           }
         });
+    }else{
+      this.snackBar.open('Debes ingresar tus datos', undefined, {
+        duration: 2500,
+      });
     }
   }
 }
