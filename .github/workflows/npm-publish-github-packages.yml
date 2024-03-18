@@ -1,0 +1,37 @@
+name: Node.js CI/CD
+
+on:
+  push:
+    branches:
+      - main  # Change this to your main branch name
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Adjust the version as needed
+        
+      - name: Install dependencies
+        run: |
+          npm install -g @angular/cli
+      
+      - name: Deploy
+        run: |
+          mkdir -p ~/.ssh
+          echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ls -al ~/.ssh
+          cat ~/.ssh/id_rsa
+          ssh-keyscan -H $DEPLOY_SERVERS >> ~/.ssh/known_hosts
+          ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; ssh -o StrictHostKeyChecking=yes admin@$DEPLOY_SERVER "cd $GITHUB_REPOSITORY && git pull && sudo systemctl reload nginx"'
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          DEPLOY_SERVERS: ${{ secrets.DEPLOY_SERVERS }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
