@@ -23,17 +23,19 @@ jobs:
           npm install -g @angular/cli
       
       - name: Deploy
-        run: |
-          mkdir -p ~/.ssh
-          echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ls -al ~/.ssh
-          cat ~/.ssh/id_rsa
-          ssh-agent -a $SSH_AUTH_SOCK
-          ssh-add ~/.ssh/id_rsa
-          ssh -o StrictHostKeyChecking=yes admin@$DEPLOY_SERVER "cd $GITHUB_REPOSITORY && git pull && sudo systemctl reload nginx"
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_SERVER }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          script: |
+            cd $GITHUB_REPOSITORY
+            git pull
+            sudo systemctl reload nginx
         env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
           DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
+          DEPLOY_USERNAME: ${{ secrets.DEPLOY_USERNAME }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
           GITHUB_REPOSITORY: ${{ github.repository }}
