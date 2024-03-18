@@ -29,10 +29,11 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ls -al ~/.ssh
           cat ~/.ssh/id_rsa
-          eval "$(ssh-agent -s)"
+          ssh-agent -a $SSH_AUTH_SOCK
           ssh-add ~/.ssh/id_rsa
           ssh -o StrictHostKeyChecking=yes admin@$DEPLOY_SERVER "cd $GITHUB_REPOSITORY && git pull && sudo systemctl reload nginx"
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
           DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
           GITHUB_REPOSITORY: ${{ github.repository }}
