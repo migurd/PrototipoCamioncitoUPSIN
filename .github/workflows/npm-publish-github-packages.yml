@@ -25,11 +25,13 @@ jobs:
       - name: Deploy
         run: |
           mkdir -p ~/.ssh
-          echo "$PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+          echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ls -al ~/.ssh
           cat ~/.ssh/id_rsa
-          ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; ssh -o StrictHostKeyChecking=yes admin@$DEPLOY_SERVER "cd $GITHUB_REPOSITORY && git pull && sudo systemctl reload nginx"'
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
+          ssh -o StrictHostKeyChecking=yes admin@$DEPLOY_SERVER "cd $GITHUB_REPOSITORY && git pull && sudo systemctl reload nginx"
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
