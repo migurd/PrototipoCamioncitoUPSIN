@@ -36,4 +36,4 @@ jobs:
 
       - name: Deploy
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem admin@${{ secrets.DEPLOY_SERVER }} "rm -rf $CI_PROJECT_NAME && git clone $CI_REPOSITORY_URL && cd $CI_PROJECT_NAME && npm install && sudo systemctl reload nginx" || exit 1
+          ssh -o StrictHostKeyChecking=no -i key.pem admin@${{ secrets.DEPLOY_SERVER }} "rm -rf ${{ github.event.repository.name }} && git clone ${{ github.event.repository.clone_url }} && cd ${{ github.event.repository.name }} && npm install && sudo systemctl reload nginx" || exit 1
