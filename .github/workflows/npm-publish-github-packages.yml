@@ -24,7 +24,9 @@ jobs:
       
       - name: Deploy
         run: |
-          ssh -i "${{ secrets.PRIVATE_KEY }}" admin@${{ secrets.DEPLOY_SERVER }} "cd ${{ github.repository }} && git pull && sudo systemctl reload nginx"
+          echo "$PRIVATE_KEY" > key.pem
+          chmod 600 key.pem
+          ssh -i key.pem admin@${{ secrets.DEPLOY_SERVER }} "cd {{ github.repository }} && git pull && sudo systemctl reload nginx"
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
