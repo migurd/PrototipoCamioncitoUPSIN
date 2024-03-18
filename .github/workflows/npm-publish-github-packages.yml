@@ -29,9 +29,8 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ls -al ~/.ssh
           cat ~/.ssh/id_rsa
-          ssh-keyscan -H $DEPLOY_SERVERS >> ~/.ssh/known_hosts
           ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; ssh -o StrictHostKeyChecking=yes admin@$DEPLOY_SERVER "cd $GITHUB_REPOSITORY && git pull && sudo systemctl reload nginx"'
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          DEPLOY_SERVERS: ${{ secrets.DEPLOY_SERVERS }}
+          DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
           GITHUB_REPOSITORY: ${{ github.repository }}
