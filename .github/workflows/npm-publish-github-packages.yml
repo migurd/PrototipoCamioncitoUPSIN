@@ -36,4 +36,4 @@ jobs:
 
       - name: Deploy
         run: |
-          ssh -i key.pem admin@${{ secrets.DEPLOY_SERVER }} "cd ${{ github.repository }} && git pull && sudo systemctl reload nginx" || exit 1
+          ssh -o StrictHostKeyChecking=no -i key.pem admin@${{ secrets.DEPLOY_SERVER }} "cd $REPOSITORY && git pull && sudo systemctl reload nginx" || exit 1
