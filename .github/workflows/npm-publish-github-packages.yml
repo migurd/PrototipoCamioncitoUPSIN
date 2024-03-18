@@ -23,19 +23,7 @@ jobs:
           npm install -g @angular/cli
       
       - name: Deploy
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.DEPLOY_SERVER }}
-          username: ${{ secrets.DEPLOY_USERNAME }}
-          key: ${{ secrets.PRIVATE_KEY }}
-          port: ${{ secrets.DEPLOY_PORT }}
-          script: |
-            cd $GITHUB_REPOSITORY
-            git pull
-            sudo systemctl reload nginx
+        run: |
+          ssh admin@${{ secrets.DEPLOY_SERVER }} "cd ${{ github.repository }} && git pull && sudo systemctl reload nginx"
         env:
           DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
-          DEPLOY_USERNAME: ${{ secrets.DEPLOY_USERNAME }}
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
