@@ -28,6 +28,9 @@ jobs:
           echo "Private key:"
           echo "$PRIVATE_KEY"
           ssh-keygen -y -f key.pem
+        env:
+          PRIVATE_KEY: $PRIVATE_KEY
+          DEPLOY_SERVER: $DEPLOY_SERVER
 
       - name: Deploy
         run: |
