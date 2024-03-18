@@ -35,6 +35,6 @@ jobs:
           chmod 600 key.pem
           ssh -i key.pem admin@$DEPLOY_SERVER "cd $REPOSITORY && git pull && sudo systemctl reload nginx" || exit 1
         env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
+          PRIVATE_KEY: $PRIVATE_KEY
+          DEPLOY_SERVER: $DEPLOY_SERVER
           REPOSITORY: ${{ github.repository }}
